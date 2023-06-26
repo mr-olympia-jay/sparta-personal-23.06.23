@@ -1,9 +1,11 @@
-{
+require('dotenv').config()
+
+module.exports = {
   "development": {
-    "username": "root",
-    "password": "kme015950",
-    "database": "2023-06-23",
-    "host": "express-database.c7uefdq9unbl.ap-northeast-2.rds.amazonaws.com",
+    "username": process.env.username,
+    "password": process.env.password,
+    "database": process.env.database,
+    "host": process.env.host,
     "dialect": "mysql"
   },
   "test": {
