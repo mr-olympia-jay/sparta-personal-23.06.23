@@ -1,3 +1,5 @@
+// models>posts.js
+
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
@@ -6,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
 
       this.belongsTo(models.Users, { // Posts(model) => Users(model) = N:1
         targetKey: 'userId', // Users(model)의 userId(column)를
-        foreignKey: 'UserId', // Posts(model)의 UserId(column)와 연결합니다.
+        foreignKey: 'userId', // Posts(model)의 UserId(column)와 연결합니다.
       });
     }
   }
@@ -19,11 +21,11 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true, // Primary Key
         type: DataTypes.INTEGER,
       },
-      UserId: {
+      userId: {
         allowNull: false, // NOT NULL
         type: DataTypes.INTEGER,
       },
-      Nickname: {
+      nickname: {
         allowNull: false, // NOT NULL
         type: DataTypes.STRING,
       },

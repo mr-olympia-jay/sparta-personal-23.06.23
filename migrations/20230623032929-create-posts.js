@@ -9,7 +9,7 @@ module.exports = {
         primaryKey: true, // Primary Key
         type: Sequelize.INTEGER
       },
-      UserId: {
+      userId: {
         allowNull: false, // NOT NULL
         type: Sequelize.INTEGER,
         references: {
@@ -18,7 +18,7 @@ module.exports = {
         },
         onDelete: 'CASCADE', // 만약 Users(model)의 userId(column)가 삭제되면, Posts(model)의 Data가 삭제됩니다.
       },
-      Nickname: {
+      nickname: {
         allowNull: false, // NOT NULL
         type: Sequelize.STRING,
       },

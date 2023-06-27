@@ -143,5 +143,6 @@ dist
 
 # 보안 관련
 .env
+config/config.json
 
 # End of https://www.toptal.com/developers/gitignore/api/node

@@ -29,8 +29,8 @@ router
     // Posts(table)에 게시물 정보를 추가합니다.
     const user = await Users.findOne({ where: userId })
     await Posts.create({
-      UserId: userId,
-      Nickname: user.nickname,
+      userId: userId,
+      nickname: user.nickname,
       title: title,
       content: content
     });
@@ -47,7 +47,7 @@ router
 .get("/posts", async (req, res) => {
   try {
     const posts = await Posts.findAll({
-      attributes: ["postId", "UserId", "Nickname", "title", "createdAt", "updatedAt"],
+      attributes: ["postId", "userId", "nickname", "title", "createdAt", "updatedAt"],
       order: [['createdAt', 'DESC']] // "createAt"을 내림차순 조회
     });
 
@@ -62,7 +62,7 @@ router.get("/posts/:postId", async (req, res) => {
   const { postId } = req.params;
   try {
     const post = await Posts.findOne({
-      attributes: ["postId", "UserId", "title", "content", "createdAt", "updatedAt"],
+      attributes: ["postId", "userId", "title", "content", "createdAt", "updatedAt"],
       where: { postId }
     });
 
@@ -86,7 +86,7 @@ router
     if (!post) {
       return res.status(404).json({ message: "게시글이 존재하지 않습니다." });
     }
-    if (post.UserId !== userId) {
+    if (post.userId !== userId) {
       return res.status(403).json({ message: "게시글 수정 권한이 존재하지 않습니다." });
     }
     if (!title || !content) {
@@ -105,10 +105,11 @@ router
         { title, content }, // <= 수정하고자 하는 column입니다.
         {
           where: {
-            [Op.and]: [{ postId }, { UserId: userId }],
+            [Op.and]: [{ postId }, { userId }],
           }
         }
       )
+      console.log(userId)
     } catch {
       return res.status(401).json({ message: "게시글이 정상적으로 수정되지 않았습니다." });
     }
@@ -132,15 +133,15 @@ router.delete("/posts/:postId", authMiddleware, async (req, res) => {
     if (!post) {
       return res.status(404).json({ message: "게시글이 존재하지 않습니다." });
     }
-    if (post.UserId !== userId) {
-      return res.status(403).json({ message: "게시글 수정 권한이 존재하지 않습니다." });
+    if (post.userId !== userId) {
+      return res.status(403).json({ message: "게시글 삭제 권한이 존재하지 않습니다." });
     }
 
     try {
       // 게시글에 대한 권한을 확인하고, 게시글을 삭제합니다.
       await Posts.destroy({
         where: {
-          [Op.and]: [{ postId }, { UserId: userId }],
+          [Op.and]: [{ postId }, { userId }],
         }
       });
     // try => catch
